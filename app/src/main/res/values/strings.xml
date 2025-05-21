@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Fellowship</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="message_screen_title">Messages</string>
+    <string name="call_screen_title">Calls</string>
+    <string name="profile_screen_title">Profile</string>
+    <string name="stories_screen_title">Stories</string>
+    <string name="title_activity_result_launcher">ActivityResultLauncher</string>
+
+
+
+    <!-- Common -->
+    <string name="generic_error">Something wrong happened. Please try again.</string>
+    <string name="email_error">Please insert a valid email.</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="name_label">Name</string>
+    <string name="channel_ID">Message Pull</string>
+
+
+    <!-- LoginScreen -->
+    <string name="empty_password_error">Password cannot be empty.</string>
+    <string name="google_sign_in_button">SIGN IN WITH GOOGLE</string>
+    <string name="sign_in_button">SIGN IN</string>
+    <string name="welcome_title">Welcome Back</string>
+    <string name="welcome_text">Welcome back! Please enter your details</string>
+    <string name="forgot_password_text_button">Forgot password</string>
+    <string name="no_member_text">Don\'t have an account?\ </string>
+    <string name="sign_up_text_button">Sign Up</string>
+
+    <!-- SignUpScreen -->
+    <string name="head_title">Create an Account</string>
+    <string name="head_subtitle">Let\'s build a community together</string>
+    <string name="create_account_button">CREATE ACCOUNT</string>
+    <string name="google_sign_up_button">SIGN UP WITH GOOGLE</string>
+
+    <!-- MessageFragment -->
+    <string name="start_chat_button_text">Start chat</string>
+
+    <!-- StartChatFragment -->
+    <string name="start_chat_title">New Conversation</string>
+
+    <!-- ProfileFragment -->
+    <string name="account_title">Account</string>
+    <string name="setting_title">Settings</string>
+    <string name="username_field">Username</string>
+    <string name="status_field">Status</string>
+    <string name="change_username_title">Change username</string>
+    <string name="empty_status_message">Add a few words about yourself</string>
+    <string name="settings_button">Chat settings</string>
+    <string name="notification_button">Notifications</string>
+    <string name="logout_button">Logout</string>
+    <string name="theme_button">Dark mode</string>
+</resources>
