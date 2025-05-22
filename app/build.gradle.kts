@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.service)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -58,10 +60,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.androidx.navigation)
-    implementation(libs.androidx.accompanist)
+    //implementation(libs.androidx.navigation)
+    //implementation(libs.androidx.accompanist)
     implementation(libs.androidx.accompanist.ui.controler)
     implementation(libs.androidx.compose.extended.icons)
+    implementation(libs.androidx.navigation.compose)
 
     //Firebase
     implementation(platform(libs.firebase.bom))
@@ -77,6 +80,5 @@ dependencies {
     //hilt-dagger
     implementation(libs.dagger.hilt)
     implementation(libs.dagger.hilt.navigation)
-
-    annotationProcessor(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
 }

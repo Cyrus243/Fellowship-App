@@ -2,7 +2,6 @@ package com.indelible.fellowship
 
 import android.content.res.Resources
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.*
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -12,7 +11,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.indelible.fellowship.core.model.Message
@@ -23,10 +22,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun rememberAppStates(
-    navController: NavHostController = rememberAnimatedNavController(),
+    navController: NavHostController = rememberNavController(),
     snackBarManager: SnackbarManager = SnackbarManager,
     snackBarHostState: SnackbarHostState = SnackbarHostState(),
     resources: Resources = resources(),
@@ -72,8 +70,8 @@ class AppState constructor(
     fun popUp(){
         navController.popBackStack()
     }
-    fun navigate(route: String){
-        navController.navigate(route){
+    fun navigate(screen: Any){
+        navController.navigate(screen){
             launchSingleTop = true
         }
     }
@@ -101,7 +99,7 @@ fun shouldShownBottomBar(appState: AppState) =
     appState.navController.currentBackStackEntryAsState()
         .value?.destination?.route in bottomNavRoutes
 
-private val bottomNavRoutes = BottomNavItem.values().map { it.route }
+private val bottomNavRoutes = BottomNavItem.entries.map { it.route }
 
 
 // LogIn Screen UI State

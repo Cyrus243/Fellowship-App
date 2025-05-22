@@ -35,8 +35,8 @@ import com.indelible.fellowship.core.model.Conversation
 import com.indelible.fellowship.core.model.MessageStatus
 import com.indelible.fellowship.core.model.User
 import com.indelible.fellowship.core.model.UserStatus
+import com.indelible.fellowship.navigation.Destination
 import com.indelible.fellowship.navigation.Graph
-import com.indelible.fellowship.navigation.MessageDetailScreens
 import com.indelible.fellowship.ui.component.RoundProfile
 import com.indelible.fellowship.ui.screen.message.viewmodel.MessageViewModel
 import kotlinx.coroutines.delay
@@ -48,7 +48,7 @@ import kotlin.math.roundToInt
 fun MessageFragment(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
-    navigate: (String) -> Unit,
+    navigate: (Any) -> Unit,
     viewModel: MessageViewModel = hiltViewModel(),
 ){
 
@@ -204,7 +204,7 @@ fun MessageItem(
     item: Conversation = Conversation(),
     opponent: User = User(),
     chatRoomId: String = "",
-    onClick: (String) -> Unit = {},
+    onClick: (Any) -> Unit,
     cardOffset: Float = -490f,
     onExpand: ()-> Unit,
     onCollapsed: ()-> Unit,
@@ -262,11 +262,7 @@ fun MessageItem(
             }
             //.clip(RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp))
             .clickable {
-                onClick.invoke(
-                    MessageDetailScreens
-                        .MessageDetailScreen
-                        .route + "/$chatRoomId" + "/${opponent.userId}"
-                )
+                onClick(Destination.MessageDetails(chatRoomId, opponent.userId))
             },
         tonalElevation = cardElevation
     ) {

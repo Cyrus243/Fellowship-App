@@ -14,3 +14,27 @@ object Graph{
     const val EDIT_PROFILE = "Edit_profile"
 
 }
+
+sealed class GraphRoute {
+    object Root
+    object MessageDetails
+}
+
+sealed class Destination {
+    object SignIn
+    object SignUp
+    object Main
+    object Home
+    object SplashScreen
+
+    object Messages
+    object Calls
+    object Stories
+    object Profile
+    object StartChat
+    object EditProfile
+
+    data class MessageDetails(val chatRoomId: String, val opponentUUID: String)
+    data class ImageViewer(val imagePath: String)
+}
+

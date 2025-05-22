@@ -61,6 +61,7 @@ import com.indelible.fellowship.core.domain.convertLongToTime
 import com.indelible.fellowship.core.domain.messageFormatter
 import com.indelible.fellowship.core.model.Message
 import com.indelible.fellowship.core.model.User
+import com.indelible.fellowship.navigation.Destination
 import com.indelible.fellowship.navigation.ImageViewerScreens
 import com.indelible.fellowship.ui.component.ConversationDropDown
 import com.indelible.fellowship.ui.component.CustomAlertDialog
@@ -74,7 +75,7 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun ConversationScreen(
     modifier: Modifier = Modifier,
-    navigate: (String) -> Unit,
+    navigate: (Any) -> Unit,
     popUp: () -> Unit,
     opponentId: String,
     chatRoomId: String,
@@ -100,7 +101,7 @@ fun ConversationScreen(
 @Composable
 fun ConversationContent(
     modifier: Modifier = Modifier,
-    navigate: (String) -> Unit,
+    navigate: (Any) -> Unit,
     popUp: () -> Unit,
     opponentId: String,
     chatRoomId: String,
@@ -232,7 +233,7 @@ fun Messages(
     messages: List<Message>,
     scrollState: LazyListState,
     updateMessage: (Message) -> Unit,
-    navigate: (String) -> Unit,
+    navigate: (Any) -> Unit,
     popUp: () -> Unit,
     onMessageSelected: (Int) -> Unit,
     onMessageUnSelected: (Int) -> Unit,
@@ -271,9 +272,7 @@ fun Messages(
                         isUserMe = authorMe == content.author,
                         isFirstMessageByAuthor = isFirstMessageByAuthor,
                         isLastMessageByAuthor = isLastMessageByAuthor,
-                        openImage = { navigate(
-                            ImageViewerScreens.ImageViewerScreen.route + "/$encodeUrl"
-                        ) },
+                        openImage = { navigate(Destination.ImageViewer(encodeUrl)) },
                         onLongClick = {
                             if (itemSelectedList.contains(index)){
                                 onMessageUnSelected(index)

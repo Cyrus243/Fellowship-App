@@ -1,17 +1,15 @@
 package com.indelible.fellowship.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.indelible.fellowship.ui.screen.authentication.LogInContent
-import com.indelible.fellowship.ui.screen.authentication.SignUpContent
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.AnimatedNavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.indelible.fellowship.AppState
 import com.indelible.fellowship.core.domain.navigateAndPopUp
+import com.indelible.fellowship.ui.screen.authentication.LogInContent
+import com.indelible.fellowship.ui.screen.authentication.SignUpContent
 
-@OptIn(ExperimentalAnimationApi::class)
+
 @Composable
 fun AuthNavGraph(
     appState: AppState,
@@ -19,26 +17,26 @@ fun AuthNavGraph(
     starDestination: String
 ){
     val navController = appState.navController
-    AnimatedNavHost(
+    NavHost(
         navController = navController,
-        route = Graph.ROOT,
-        startDestination =  starDestination,
-        modifier = Modifier
+        startDestination = starDestination,
     ){
-        composable(Graph.SPLASH_SCREEN){
-//            SplashScreen{ route, popUp ->
+        composable<Destination.SplashScreen> {
+//            SplashScreen { route, popUp ->
 //                navController.navigateAndPopUp(route, popUp)
 //            }
         }
-        composable(Graph.SIGN_IN_CONTENT){
+
+        composable<Destination.SignIn> {
             LogInContent(
                 openAndPopUp = { route, popUp ->
                     navController.navigateAndPopUp(route, popUp)
                 },
-                navigate = {route -> navController.navigate(route) }
+                navigate = { route -> navController.navigate(route) }
             )
         }
-        composable(Graph.SIGN_UP_CONTENT){
+
+        composable<Destination.SignUp> {
             SignUpContent(
                 openAndPopUp = { route, popUp ->
                     navController.navigateAndPopUp(route, popUp)
@@ -47,7 +45,6 @@ fun AuthNavGraph(
             )
         }
         mainNavGraph(appState, paddingValues)
-
     }
 }
 

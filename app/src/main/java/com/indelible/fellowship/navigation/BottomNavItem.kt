@@ -12,26 +12,31 @@ import com.indelible.fellowship.R
 
 enum class BottomNavItem(
     val route: String,
+    val screen: Any,
     @StringRes val title: Int,
     val icon: ImageVector
 ) {
     Messages(
-        route = "messages",
+        route = Destination.Messages.toString(),
+        screen = Destination.Messages,
         title = R.string.message_screen_title,
         icon = Icons.Default.ChatBubble
     ),
    Calls(
-        route = "calls",
-        title = R.string.call_screen_title,
-        icon = Icons.Rounded.Call
+       route = Destination.Messages.toString(),
+       screen = Destination.Calls,
+       title = R.string.call_screen_title,
+       icon = Icons.Rounded.Call
     ),
     Stories(
-        route = "stories",
+        route = Destination.Stories.toString(),
+        screen = Destination.Stories,
         title = R.string.stories_screen_title,
         icon = Icons.Default.AmpStories
     ),
     Profile(
-        route = "profile",
+        route = Destination.Profile.toString(),
+        screen = Destination.Profile,
         title = R.string.profile_screen_title,
         icon = Icons.Default.Person
     )
