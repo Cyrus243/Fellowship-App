@@ -1,10 +1,13 @@
-package com.example.fellowship.ui.maincontent
+package com.indelible.fellowship.ui.screen.maincontent
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -28,9 +31,7 @@ import com.indelible.fellowship.rememberAppStates
 import com.indelible.fellowship.shouldShownBottomBar
 
 @Composable
-fun MainFragment(
-    startDestination: String
-){
+fun MainFragment(startDestination: Any){
 
     val appState = rememberAppStates()
     val shouldShowBottomBar = shouldShownBottomBar(appState)
@@ -57,7 +58,6 @@ fun MainFragment(
 
 }
 
-
 @Composable
 fun BottomBar(
     appState: AppState,
@@ -78,19 +78,24 @@ fun BottomBar(
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        NavigationBar() {
-            screens.forEach { item ->
-                NavigationBarItem(
-                    label = { Text(text = stringResource(id = item.title))},
-                    icon = {
-                        Icon(imageVector = item.icon,
-                            contentDescription = null)
-                    },
-                    selected = currentDestination?.hierarchy?.any {
-                        it.route == item.route
-                    } == true,
-                    onClick = { appState.navigate(item.route) }
-                )
+        Column(modifier = Modifier.fillMaxWidth()) {
+            HorizontalDivider(thickness = 1.dp)
+
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface
+            ) {
+                screens.forEach { item ->
+                    NavigationBarItem(
+                        label = { Text(text = stringResource(id = item.title)) },
+                        icon = {
+                            Icon(imageVector = item.icon, contentDescription = null)
+                        },
+                        selected = currentDestination?.hierarchy?.any {
+                            it.route == item.route.substringBefore("@").replace("$", ".")
+                        } == true,
+                        onClick = { appState.navigate(item.screen) }
+                    )
+                }
             }
         }
     }

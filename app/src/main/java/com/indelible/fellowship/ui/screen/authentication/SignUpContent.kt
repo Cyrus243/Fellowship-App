@@ -36,7 +36,7 @@ import com.indelible.fellowship.SignUpUIState
 
 @Composable
 fun SignUpContent(
-    openAndPopUp: (String, String) -> Unit,
+    openAndPopUp: (Any, Any) -> Unit,
     popUp: () -> Unit,
     signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {

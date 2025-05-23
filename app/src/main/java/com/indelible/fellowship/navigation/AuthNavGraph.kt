@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.indelible.fellowship.AppState
-import com.indelible.fellowship.core.domain.navigateAndPopUp
 import com.indelible.fellowship.ui.screen.authentication.LogInContent
 import com.indelible.fellowship.ui.screen.authentication.SignUpContent
 
@@ -14,7 +13,7 @@ import com.indelible.fellowship.ui.screen.authentication.SignUpContent
 fun AuthNavGraph(
     appState: AppState,
     paddingValues: PaddingValues,
-    starDestination: String
+    starDestination: Any
 ){
     val navController = appState.navController
     NavHost(
@@ -30,16 +29,16 @@ fun AuthNavGraph(
         composable<Destination.SignIn> {
             LogInContent(
                 openAndPopUp = { route, popUp ->
-                    navController.navigateAndPopUp(route, popUp)
+                    appState.navigateAndPopUp(route, popUp)
                 },
-                navigate = { route -> navController.navigate(route) }
+                navigate = { route -> appState.navigate(route) }
             )
         }
 
         composable<Destination.SignUp> {
             SignUpContent(
                 openAndPopUp = { route, popUp ->
-                    navController.navigateAndPopUp(route, popUp)
+                    appState.navigateAndPopUp(route, popUp)
                 },
                 popUp = { navController.popBackStack() }
             )

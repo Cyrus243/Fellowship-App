@@ -1,40 +1,49 @@
 package com.indelible.fellowship.navigation
 
-
-object Graph{
-    const val ROOT = "Root"
-    const val AUTHENTICATION_CONTENT = "Authentication_graph"
-    const val SIGN_IN_CONTENT = "Sign_in_graph"
-    const val SIGN_UP_CONTENT = "Sign_up_graph"
-    const val HOME = "Main_content"
-    const val START_CHAT = "Start_chat"
-    const val SPLASH_SCREEN = "Splash_screen"
-    const val MAIN = "Main"
-    const val MESSAGE_DETAILS = "Details_graph"
-    const val EDIT_PROFILE = "Edit_profile"
-
-}
+import kotlinx.serialization.Serializable
 
 sealed class GraphRoute {
+    @Serializable
     object Root
+
+    @Serializable
     object MessageDetails
 }
 
+
 sealed class Destination {
+    @Serializable
     object SignIn
+
+    @Serializable
     object SignUp
-    object Main
-    object Home
+
+    @Serializable
     object SplashScreen
 
+    @Serializable
     object Messages
+
+    @Serializable
     object Calls
+
+    @Serializable
     object Stories
+
+    @Serializable
     object Profile
+
+    @Serializable
     object StartChat
+
+    @Serializable
     object EditProfile
 
-    data class MessageDetails(val chatRoomId: String, val opponentUUID: String)
+
+    @Serializable
+    data class MessageDetails(val chatRoomId: String, val opponentId: String)
+
+    @Serializable
     data class ImageViewer(val imagePath: String)
 }
 

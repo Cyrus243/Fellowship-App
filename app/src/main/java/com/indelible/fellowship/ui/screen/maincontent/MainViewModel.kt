@@ -3,7 +3,8 @@ package com.indelible.fellowship.ui.screen.maincontent
 import com.indelible.fellowship.BaseViewModel
 import com.indelible.fellowship.core.model.UserStatus
 import com.indelible.fellowship.core.service.AccountService
-import com.indelible.fellowship.navigation.Graph
+import com.indelible.fellowship.navigation.Destination
+import com.indelible.fellowship.navigation.GraphRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,11 +14,11 @@ class MainViewModel @Inject constructor(
     private val accountService: AccountService
 ): BaseViewModel() {
 
-    fun getStarDestination(): String {
+    fun getStarDestination(): Any {
        return if (accountService.hasUser)
-            Graph.HOME
+            GraphRoute.Root
         else
-            Graph.SIGN_IN_CONTENT
+            Destination.SignIn
     }
 
     fun setUserStatusToFireBase(userStatus: UserStatus){

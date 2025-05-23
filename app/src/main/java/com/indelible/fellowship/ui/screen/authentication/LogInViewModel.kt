@@ -1,7 +1,7 @@
 package com.indelible.fellowship.ui.screen.authentication
 
 import com.indelible.fellowship.core.service.AccountService
-import com.indelible.fellowship.navigation.Graph
+import com.indelible.fellowship.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -11,18 +11,18 @@ class SignInViewModel @Inject constructor(
     private val accountService: AccountService
 ): AuthViewModel() {
 
-    fun checkStatus(navigateAndPopUp:(String, String) -> Unit){
+    fun checkStatus(navigateAndPopUp:(Any, Any) -> Unit){
         if (accountService.hasUser){
-            navigateAndPopUp(Graph.HOME, Graph.SIGN_IN_CONTENT)
+            navigateAndPopUp(Destination.Messages, Destination.SignIn)
         }
     }
 
-     fun onSignInClick(openAndPopUp:(String, String) -> Unit){
+     fun onSignInClick(openAndPopUp:(Any, Any) -> Unit){
         super.onConnect(openAndPopUp)
 
         launchCatching {
             accountService.authenticate(userEmail, userPassword)
-            openAndPopUp(Graph.HOME, Graph.SIGN_IN_CONTENT)
+            openAndPopUp(Destination.Messages, Destination.SignIn)
         }
 
     }
@@ -30,8 +30,8 @@ class SignInViewModel @Inject constructor(
     fun enableLogInButton(): Boolean =
         userEmail.isNotBlank() && userPassword.isNotBlank()
 
-    fun onSignUpClick(navigate: (String) -> Unit){
-        navigate(Graph.SIGN_UP_CONTENT)
+    fun onSignUpClick(navigate: (Any) -> Unit){
+        navigate(Destination.SignUp)
     }
     companion object{
         private const val TAG = "SignInViewModel"

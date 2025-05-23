@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -31,7 +32,7 @@ import com.indelible.fellowship.core.model.User
 fun ProfileFragment(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = hiltViewModel(),
-    openAndPopUp: (String, String) -> Unit,
+    openAndPopUp: (Any, Any) -> Unit,
     navigate: (String) -> Unit,
     popUp: () -> Unit
 ) {
@@ -166,7 +167,8 @@ fun ProfileFragment(
             icon = Icons.Default.Notifications){}
         SettingsItem(
             title = stringResource(id = R.string.logout_button),
-            icon = Icons.Default.Logout){
+            icon = Icons.AutoMirrored.Filled.Logout
+        ){
             viewModel.onLogOutClick(openAndPopUp)
         }
     }

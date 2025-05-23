@@ -62,7 +62,6 @@ import com.indelible.fellowship.core.domain.messageFormatter
 import com.indelible.fellowship.core.model.Message
 import com.indelible.fellowship.core.model.User
 import com.indelible.fellowship.navigation.Destination
-import com.indelible.fellowship.navigation.ImageViewerScreens
 import com.indelible.fellowship.ui.component.ConversationDropDown
 import com.indelible.fellowship.ui.component.CustomAlertDialog
 import com.indelible.fellowship.ui.component.UserInput
@@ -333,8 +332,8 @@ fun Message(
                 openImage = openImage
             )
         }else{
-
             val interactionSource = remember { MutableInteractionSource() }
+
             AuthorAndTextMessage(
                 msg = msg,
                 isUserMe = isUserMe,
@@ -485,6 +484,7 @@ fun ChatImageBubble(
     }
 
     val interactionSource = remember { MutableInteractionSource() }
+
 
     Column{
         val shape = if (isUserMe) UserChatBubbleShape else ChatBubbleShape

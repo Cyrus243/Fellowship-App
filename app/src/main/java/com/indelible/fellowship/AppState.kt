@@ -1,7 +1,6 @@
 package com.indelible.fellowship
 
 import android.content.res.Resources
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -76,7 +75,7 @@ class AppState constructor(
         }
     }
 
-    fun navigateAndPopUp(route: String, popUp: String){
+    fun navigateAndPopUp(route: Any, popUp: Any){
         navController.navigate(route){
             launchSingleTop = true
             popUpTo(popUp){
@@ -99,7 +98,9 @@ fun shouldShownBottomBar(appState: AppState) =
     appState.navController.currentBackStackEntryAsState()
         .value?.destination?.route in bottomNavRoutes
 
-private val bottomNavRoutes = BottomNavItem.entries.map { it.route }
+private val bottomNavRoutes = BottomNavItem.entries.map {
+    it.route.substringBefore("@").replace("$", ".")
+}
 
 
 // LogIn Screen UI State

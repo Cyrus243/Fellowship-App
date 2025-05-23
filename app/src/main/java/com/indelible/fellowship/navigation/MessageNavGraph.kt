@@ -1,15 +1,14 @@
 package com.indelible.fellowship.navigation
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
 
 import androidx.navigation.toRoute
 import com.indelible.fellowship.AppState
 import com.indelible.fellowship.ui.screen.mediaviewer.ImageViewer
 import com.indelible.fellowship.ui.screen.message.ConversationScreen
+import java.util.UUID
 
 
 fun NavGraphBuilder.messageNavGraph(
@@ -22,8 +21,8 @@ fun NavGraphBuilder.messageNavGraph(
 
             ConversationScreen(
                 navigate = { route -> appState.navigate(route) },
-                chatRoomId = args.chatRoomId,
-                opponentId = args.opponentUUID,
+                chatRoomId = args.chatRoomId.ifEmpty { UUID.randomUUID().toString() },
+                opponentId = args.opponentId,
                 popUp = { appState.popUp() }
             )
         }

@@ -36,10 +36,11 @@ import com.indelible.fellowship.core.model.MessageStatus
 import com.indelible.fellowship.core.model.User
 import com.indelible.fellowship.core.model.UserStatus
 import com.indelible.fellowship.navigation.Destination
-import com.indelible.fellowship.navigation.Graph
 import com.indelible.fellowship.ui.component.RoundProfile
+import com.indelible.fellowship.ui.screen.maincontent.StartChatScreen
 import com.indelible.fellowship.ui.screen.message.viewmodel.MessageViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
@@ -49,12 +50,16 @@ fun MessageFragment(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
     navigate: (Any) -> Unit,
+    navigateAndPopUp: (Any, Any) -> Unit,
     viewModel: MessageViewModel = hiltViewModel(),
 ){
 
-    val emptyState = remember {
-        mutableStateOf(false)
-    }
+    val scope = rememberCoroutineScope()
+    val emptyState = remember { mutableStateOf(false) }
+    val bottomSheetScaffoldState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.Hidden, skipHiddenState = false
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetScaffoldState)
 
     val uiState by viewModel.uiState.collectAsState()
     val conversations by viewModel.messageRowItems.collectAsState(emptyList())
@@ -67,134 +72,110 @@ fun MessageFragment(
         }
     }
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(bottom = 74.dp, top = 16.dp)
-    ){
-
-        Column {
-            SearchBar(
-                modifier = Modifier
-                    //.requiredHeight(50.dp)
-                    .align(CenterHorizontally),
-                query = uiState.searchText,
-                leadingIcon = {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            StartChatScreen(
+                contacts = users,
+                navigateAndPopUp = { destination ->
+                    navigate(destination)
+                    scope.launch { bottomSheetScaffoldState.hide() }
                 },
-                trailingIcon = {
-                    Row {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Default.Mic, contentDescription = null)
+                onCancel = { scope.launch { bottomSheetScaffoldState.hide() } }
+            )
+        },
+        sheetPeekHeight = 0.dp,
+        sheetDragHandle = {}
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(bottom = 74.dp, top = 16.dp)
+        ){
+            Column {
+                SearchBar(
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .padding(horizontal = 16.dp),
+                    query = uiState.searchText,
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                    },
+                    trailingIcon = {
+                        Row {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(imageVector = Icons.Default.Mic, contentDescription = null)
+                            }
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                            }
                         }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-                        }
-                    }
-                },
-                placeholder = { Text(text = "Search your Chat")},
-                onQueryChange = { viewModel.updateSearchText(it) },
-                onSearch = {
-                    viewModel.updateActiveSearch(false)
-                    viewModel.updateSearchText("")
-                },
-                active = uiState.active,
-                onActiveChange = {viewModel.updateActiveSearch(it)}
-            ) {}
+                    },
+                    placeholder = { Text(text = "Search your Chat")},
+                    onQueryChange = { viewModel.updateSearchText(it) },
+                    onSearch = {
+                        viewModel.updateActiveSearch(false)
+                        viewModel.updateSearchText("")
+                    },
+                    active = uiState.active,
+                    onActiveChange = {viewModel.updateActiveSearch(it)}
+                ) {}
+                Spacer(modifier = Modifier.height(16.dp))
 
+                Box(modifier = Modifier.fillMaxSize()) {
+                    if (emptyState.value){
+                        MessageEmptyState(modifier = Modifier.align(Alignment.TopCenter))
+                    }else {
+                        LazyColumn(state = lazyListState){
+                            itemsIndexed(
+                                conversations.sortedByDescending { it.lastMessage.timestamps },
+                            ){ index, item ->
+                                val user = viewModel.getUser(users, item.opponentID)
+                                if (user != null){
+                                    Box(modifier = Modifier.fillMaxWidth()) {
+                                        ActionRow(modifier = Modifier.align(Alignment.CenterEnd))
 
-//            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-//                CustomTextField(
-//                    text = remember { mutableStateOf("") },
-//                    textStyle = MaterialTheme.typography.bodyMedium,
-//                    placeholderText = "search your Chat",
-//                    modifier = Modifier
-//                        .padding(horizontal = 8.dp)
-//                        .requiredHeight(46.dp),
-//                    leadingIcon = {
-//                        Icon(imageVector = Icons.Default.Search, contentDescription = null)
-//                    },
-//                     trailingIcon = {
-//                         Row {
-//                             Row {
-//                        IconButton(onClick = { /*TODO*/ }) {
-//                            Icon(imageVector = Icons.Default.Mic, contentDescription = null)
-//                        }
-//                        IconButton(onClick = { /*TODO*/ }) {
-//                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-//                        }
-//                    }
-//                         }
-//                     }
-//                )
-//
-//            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-//            Text(
-//                modifier = Modifier.padding(start = 16.dp),
-//                text = "Messages",
-//                style = MaterialTheme.typography.titleSmall
-//            )
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (emptyState.value){
-                    MessageEmptyState(modifier = Modifier.align(Alignment.TopCenter))
-                }else {
-                    LazyColumn(
-                        state = lazyListState
-                    ){
-                        itemsIndexed(
-                            conversations.sortedByDescending { it.lastMessage.timestamps },
-                        ){ index, item ->
-                            val user = viewModel.getUser(users, item.opponentID)
-                            if (user != null){
-                                Box(modifier = Modifier.fillMaxWidth()) {
-                                    ActionRow(
-                                        modifier = Modifier.align(Alignment.CenterEnd)
-                                    )
-                                    MessageItem(
-                                        item = item,
-                                        opponent = user,
-                                        onClick = navigate,
-                                        chatRoomId = item.chatRoomId,
-                                        onExpand = { viewModel.onItemExpanded(index)},
-                                        onCollapsed = {viewModel.onItemCollapsed(index)},
-                                        isRevealed = uiState.revealedItemIdsList.contains(index)
-                                    )
+                                        MessageItem(
+                                            item = item,
+                                            opponent = user,
+                                            onClick = navigate,
+                                            chatRoomId = item.chatRoomId,
+                                            onExpand = { viewModel.onItemExpanded(index)},
+                                            onCollapsed = {viewModel.onItemCollapsed(index)},
+                                            isRevealed = uiState.revealedItemIdsList.contains(index)
+                                        )
+                                    }
                                 }
-
                             }
                         }
                     }
                 }
             }
-        }
 
-        FloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 24.dp, end = 16.dp),
-            shape = RoundedCornerShape(16.dp),
-            onClick =  {navigate.invoke(Graph.START_CHAT)},
-        ) {
-            Row(
-                modifier = Modifier.padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 24.dp, end = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                onClick =  { scope.launch { bottomSheetScaffoldState.expand() } },
             ) {
-                Icon(imageVector = Icons.Default.Edit,
-                    contentDescription = null)
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(imageVector = Icons.Default.Edit, contentDescription = null)
 //                Spacer(modifier = Modifier.width(4.dp))
 //
 //                AnimatedVisibility (lazyListState.isScrollingUp()){
 //                    Spacer(modifier = Modifier.width(8.dp))
 //                    Text(text = stringResource(id = R.string.start_chat_button_text))
 //                }
+                }
             }
         }
     }
+
+
 
 }
 
@@ -211,13 +192,13 @@ fun MessageItem(
     isRevealed: Boolean
 ) {
 
-    var offsetX by remember { mutableStateOf(0f) }
+    var offsetX by remember { mutableFloatStateOf(0f) }
     val transitionState = remember {
         MutableTransitionState(isRevealed).apply {
             targetState = !isRevealed
         }
     }
-    val transition = updateTransition(transitionState, "cardTransition")
+    val transition = rememberTransition(transitionState, "cardTransition")
 
     val offsetTransition by transition.animateFloat(
         label = "cardOffsetTransition",

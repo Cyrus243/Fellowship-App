@@ -23,7 +23,7 @@ enum class BottomNavItem(
         icon = Icons.Default.ChatBubble
     ),
    Calls(
-       route = Destination.Messages.toString(),
+       route = Destination.Calls.toString(),
        screen = Destination.Calls,
        title = R.string.call_screen_title,
        icon = Icons.Rounded.Call

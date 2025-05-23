@@ -7,8 +7,7 @@ import com.indelible.fellowship.core.model.User
 import com.indelible.fellowship.core.service.AccountService
 import com.indelible.fellowship.core.service.MessageService
 import com.indelible.fellowship.core.service.StorageService
-import com.indelible.fellowship.navigation.BottomNavItem
-import com.indelible.fellowship.navigation.Graph
+import com.indelible.fellowship.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -40,10 +39,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun onLogOutClick(openAndPopUp:(String, String) -> Unit){
+    fun onLogOutClick(openAndPopUp:(Any, Any) -> Unit){
         launchCatching {
             accountService.signOut()
-            openAndPopUp(Graph.SIGN_IN_CONTENT, BottomNavItem.Profile.route)
+            openAndPopUp(Destination.SignIn, Destination.Profile)
         }
     }
 

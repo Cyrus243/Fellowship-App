@@ -1,4 +1,4 @@
-package com.example.fellowship.ui.callcontent
+package com.indelible.fellowship.ui.screen.callcontent
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.indelible.fellowship.R
 import com.indelible.fellowship.core.domain.isScrollingUp
-import com.indelible.fellowship.ui.screen.callcontent.CallItem
 
 
 @Preview(showBackground = true)
@@ -48,7 +47,8 @@ fun CallFragment(
         Column(modifier = Modifier.fillMaxSize()) {
             SearchBar(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 16.dp),
                 query = "",
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Search, contentDescription = null)

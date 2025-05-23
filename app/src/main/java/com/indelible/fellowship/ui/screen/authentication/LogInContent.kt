@@ -31,8 +31,8 @@ import com.indelible.fellowship.SignUpUIState
 @Composable
 fun LogInContent(
     viewModel: SignInViewModel = hiltViewModel(),
-    openAndPopUp: (String, String) -> Unit,
-    navigate: (String) -> Unit
+    openAndPopUp: (Any, Any) -> Unit,
+    navigate: (Any) -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsState()

@@ -191,6 +191,7 @@ class ConversationViewModel @Inject constructor(
                 userId = currentUserId,
                 opponentId = opponentId
             ){}
+
             messageService.postMessage(
                 message = opponentVersion,
                 chatRoomId = chatRoomId,
