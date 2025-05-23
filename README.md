@@ -6,14 +6,18 @@ Fellowship is a simple yet powerful real-time chat application built with Androi
 
 This project is built using modern Android development tools and practices, following the MVVM architecture and leveraging Hilt (Dagger) for dependency injection.
 
+## 📸 Screenshots
+
+
 ## ✨ Features
 
-* Authentication – Firebase Auth for secure user login
-* Real-time Messaging – Send and receive text, audio, and video messages using Firestore and Firebase Storage
-* Calling – One-on-one audio and video calls via web-RTC (experimentation)
-* User Presence – Online/offline status tracking
-* Push Notifications – Notifications for incoming messages
-* Media Handling – Image and video loading with Coil
+* 🔐 Authentication – Firebase Auth for secure login
+* 💬 Chat – Send and receive text, audio, and video messages
+* 📞 Calling – One-on-one audio and video calls
+* 🟢 User Presence – Real-time online/offline status tracking
+* 🔔 Push Notifications – Receive notifications when new messages arrive
+* 🖼️ Media Support – Image/video preview with Coil and MediaPlayer
+* 🎯 Modern Architecture – Built with MVVM, Jetpack Compose, and Hilt
 
 ## 🛠️ Tech Stack
 
@@ -28,4 +32,24 @@ This project is built using modern Android development tools and practices, foll
 To run this project:
 
 1. Clone the repository:
+
+  ```shell
+  git clone https://github.com/Cyrus243/Fellowship.git
+  ```
+
+2. Open the project in Android studio and sync Gradle
+   
+3. Configure firebase:
+   * Create a Firebase project.
+   * Download your `google-services.json` file.
+   * Place it in the `app/` directory.
+
+ 4. Build and run:
+    * Connect a physical device or use an emulator.
+    * Press Run ▶️ in Android Studio.
+
+ ## 🤝 Contributions
+
+   Pull requests are welcome! If you'd like to contribute, feel free to fork the repo and submit improvements.
+
 
