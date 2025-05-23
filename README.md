@@ -8,6 +8,7 @@ This project is built using modern Android development tools and practices, foll
 
 ## 📸 Screenshots
 
+<img src="screenshots/Fellowship.png" alt="Screenshot">
 
 ## ✨ Features
 
